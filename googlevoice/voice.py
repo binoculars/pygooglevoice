@@ -1,5 +1,6 @@
 from conf import config
 from util import *
+from timeout import timeout
 import settings
 import base64
 
@@ -51,6 +52,7 @@ class Voice(object):
         return sp
     special = property(special)
 
+    @timeout(20)
     def login(self, email=None, passwd=None, smsKey=None):
         """
         Login to the service using your Google Voice account
@@ -69,23 +71,12 @@ class Voice(object):
         if passwd is None:
             from getpass import getpass
             passwd = getpass()
-
+        #email="xxx"
+        #passwd="xxx"
         content = self.__do_page('login').read()
         # holy hackjob
-        galx = re.search(r"name=\"GALX\"\s+value=\"([^\"]+)\"", content).group(1)
-        result = self.__do_page('login', {'Email': email, 'Passwd': passwd, 'GALX': galx})
-
-        if result.geturl().startswith(getattr(settings, "SMSAUTH")):
-            content = self.__smsAuth(smsKey)
-
-            try:
-                smsToken = re.search(r"name=\"smsToken\"\s+value=\"([^\"]+)\"", content).group(1)
-                galx = re.search(r"name=\"GALX\"\s+value=\"([^\"]+)\"", content).group(1)
-                content = self.__do_page('login', {'smsToken': smsToken, 'service': "grandcentral", 'GALX': galx})
-            except AttributeError:
-                raise LoginError
-
-            del smsKey, smsToken, galx
+        galx = re.search(r"name=\"GALX\"\s+type=\"hidden\"\s+value=\"(.+)\"", content).group(1)
+        self.__do_page('login', {'Email': email, 'Passwd': passwd, 'GALX': galx})
 
         del email, passwd
 
