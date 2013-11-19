@@ -1,6 +1,5 @@
 from conf import config
 from util import *
-from timeout import timeout
 import settings
 import base64
 
@@ -52,7 +51,6 @@ class Voice(object):
         return sp
     special = property(special)
 
-    @timeout(20)
     def login(self, email=None, passwd=None, smsKey=None):
         """
         Login to the service using your Google Voice account
