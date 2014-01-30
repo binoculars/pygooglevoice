@@ -9,7 +9,7 @@ import sys
 import BeautifulSoup
 
 
-def extractsms(htmlsms) :
+def extractsms(htmlsms):
     """
     extractsms  --  extract SMS messages from BeautifulSoup tree of Google Voice SMS HTML.
 
@@ -37,4 +37,4 @@ voice.login()
 
 voice.sms()
 for msg in extractsms(voice.sms.html):
-    print str(msg)
+    print (msg['id'], msg['from'], msg['text'], msg['time'])

@@ -73,7 +73,7 @@ class Voice(object):
         #passwd="xxx"
         content = self.__do_page('login').read()
         # holy hackjob
-        galx = re.search(r"name=\"GALX\"\s+type=\"hidden\"\s+value=\"(.+)\"", content).group(1)
+        galx = re.search(r'name="GALX".*?value="([^"]+)"', content, re.MULTILINE|re.DOTALL).group(1)
         self.__do_page('login', {'Email': email, 'Passwd': passwd, 'GALX': galx})
 
         del email, passwd

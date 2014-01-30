@@ -32,7 +32,7 @@ TYPES = {
 }
 
 DEBUG = False
-LOGIN = 'https://accounts.google.com/ServiceLoginAuth?service=grandcentral'
+LOGIN = 'https://accounts.google.com/ServiceLogin?service=grandcentral'
 SMSAUTH = 'https://accounts.google.com/SmsAuth'
 FEEDS = ('inbox', 'starred', 'all', 'spam', 'trash', 'voicemail', 'sms',
         'recorded', 'placed', 'received', 'missed')
