@@ -63,17 +63,17 @@ class Voice(object):
             email = config.email
         if email is None:
             email = input('Email address: ')
-
+        
         if passwd is None:
             passwd = config.password
         if passwd is None:
             from getpass import getpass
             passwd = getpass()
-        #email="xxx"
-        #passwd="xxx"
+        
         content = self.__do_page('login').read()
         # holy hackjob
-        galx = re.search(r'name="GALX".*?value="([^"]+)"', content, re.MULTILINE|re.DOTALL).group(1)
+        #galx = re.search(r'name="GALX".*?value="([^"]+)"', content, re.MULTILINE|re.DOTALL).group(1)
+        galx = re.search(r"name=\"GALX\"\s+type=\"hidden\"\s+value=\"(.+)\"", content).group(1)
         self.__do_page('login', {'Email': email, 'Passwd': passwd, 'GALX': galx})
 
         del email, passwd
@@ -192,7 +192,7 @@ class Voice(object):
         """
         if isinstance(msg, Message):
             msg = msg.id
-        assert is_sha1(msg), 'Message id not a SHA1 hash'
+        #assert is_sha1(msg), 'Message id not a SHA1 hash'
         self.__messages_post('archive', msg, archive=archive)
 
     def delete(self, msg, trash=1):
@@ -201,7 +201,7 @@ class Voice(object):
         """
         if isinstance(msg, Message):
             msg = msg.id
-        assert is_sha1(msg), 'Message id not a SHA1 hash'
+        #assert is_sha1(msg), 'Message id not a SHA1 hash'
         self.__messages_post('delete', msg, trash=trash)
 
     def download(self, msg, adir=None):
@@ -215,7 +215,7 @@ class Voice(object):
         from os import path, getcwd
         if isinstance(msg, Message):
             msg = msg.id
-        assert is_sha1(msg), 'Message id not a SHA1 hash'
+        #assert is_sha1(msg), 'Message id not a SHA1 hash'
         if adir is None:
             adir = getcwd()
         try:
@@ -305,7 +305,7 @@ class Voice(object):
         for msg in msgs:
             if isinstance(msg, Message):
                 msg = msg.id
-            assert is_sha1(msg), 'Message id not a SHA1 hash'
+            #assert is_sha1(msg), 'Message id not a SHA1 hash'
             data += (('messages', msg),)
         return self.__do_special_page(page, dict(data))
 
