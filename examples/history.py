@@ -61,6 +61,6 @@ for page in range(2, pages + 1):
     messages += getEnrichedJSON(res, voice.email)
 
 # Write out the data to a JSON file
-#with open(os.path.expanduser('~/gvoice_test_data.json'), 'wb+') as outfile:
-#    json.dump(messages, outfile)
+with open(os.path.expanduser('~/gvoice_test_data.json'), 'wb+') as outfile:
+    json.dump(messages, outfile)
 
