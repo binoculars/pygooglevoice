@@ -76,6 +76,7 @@ class Voice(object):
         galx = re.search(r"name=\"GALX\"\s+type=\"hidden\"\s+value=\"(.+)\"", content).group(1)
         self.__do_page('login', {'Email': email, 'Passwd': passwd, 'GALX': galx})
 
+        setattr(self, 'email', email) # Save login for later
         del email, passwd
 
         try:
